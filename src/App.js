@@ -53,17 +53,22 @@ export const App = () => {
     return arr;
   }
 
+
+  // Handles state of bricks, with randomizer(game) as initial to return a random order of bricks from start
   const [bricks, setBricks] = useState(randomizer(game))
-
-  //Button that randomly shuffles the order of the  objects in the game array
-  const handleShuffle = () => {
-    return randomizer(game)
-  }
-
+  // --> What to do with bricks? Do I have to use it?
 
 
   const handleMove = () => {
-    // a function that handles the move of the numbers. Splice or similare? Many if-statements...?
+    // a function that handles the move of the numbers. Splice, push, pop or similar? Many if-statements...?
+  }
+
+
+  //Check if won and update state to true
+  const handleWin = () => {
+    // if (winningGame === newGame || winningGame === game) {
+    //   setWon(true)
+    // }
   }
 
   // if game === winningResult setWon(true) return "You have won!!"
@@ -72,6 +77,9 @@ export const App = () => {
 
   return (
     <main className="main-container">
+      {won && (
+        <h1 className="winning-title">Bra jobbat, du klarade det!</h1>
+      )}
       <div className="game-board">
         {game.map((brick) => (
           <div

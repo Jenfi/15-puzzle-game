@@ -7,11 +7,12 @@
 .game-board{
   align-items: center;
   background: lightgray;
+  border: 2px solid black;
   display: flex;
   flex-wrap: wrap;
   height: auto;
   justify-content: center;
-  padding: 0.3rem;
+  padding: 0.3rem 0 0.3rem 0;
   width: 90%;
 }
 
@@ -21,10 +22,10 @@
   border: 1px solid black;
   border-radius: 6px;
   display: flex;
-  height: 3.9rem;
+  height: 3.2rem;
   justify-content: center;
   margin: 0.08rem;
-  width: 3.9rem;
+  width: 18%;
 }
 
 .main-container{
@@ -48,7 +49,41 @@
 .no-brick{
   align-items: center;
   background: lightgray;
-  height: 3.9rem;
+  height: 3.2rem;
   margin: 0.08rem;
-  width: 3.9rem;
+  width: 18%;
+}
+
+.winning-title{
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+
+/* MEDIA QUERIES */
+
+@media screen and (min-width: 41.75rem) {
+
+  .game-brick{
+    height: 7rem;
+    font-size: 22px;
+    width: 19%;
+  }
+
+  .no-brick{
+    height: 7rem;
+    width: 19%;
+  }
+
+  .shuffle-button{
+    width: 11rem;
+    height: 4rem;
+    margin: 3rem;
+    font-size: 26px;
+  }
+
+  .game-board{
+    max-width: 600px;
+  }
 }
