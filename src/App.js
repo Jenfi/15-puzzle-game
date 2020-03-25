@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-
 import './styling/game.css'
 
 export const App = () => {
   const [won, setWon] = useState(false)
+  //should I be using Redux?
 
   // array with all numbers. Below is the winning order
   const game = [
@@ -56,11 +56,16 @@ export const App = () => {
 
   // Handles state of bricks, with randomizer(game) as initial to return a random order of bricks from start
   const [bricks, setBricks] = useState(randomizer(game))
-  // --> What to do with bricks? Do I have to use it?
+
+  console.log(game)
+  console.log(newGame)
 
 
   const handleMove = () => {
-    // a function that handles the move of the numbers. Splice, push, pop or similar? Many if-statements...?
+    // a function that handles the move of the numbers --> move element inside an array
+    // Splice, push??
+    // Should only be able if number = is next to brick. Many if-statements...?
+    // Should be saved in the state of bricks? 
   }
 
 
@@ -97,7 +102,7 @@ export const App = () => {
         className="shuffle-button"
         type="button"
         onClick={() => setBricks(randomizer(newGame))}>
-        SLUMPA
+        Slumpa
         </button>
     </main >
   )
