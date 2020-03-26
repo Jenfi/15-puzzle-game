@@ -67,15 +67,17 @@ export const App = () => {
 
   return (
     <article className="main-container">
-      {won && (
-        <h1 className="winning-title">Bra jobbat, du klarade det!</h1>
-      )}
+
       <div className="game-board">
+        {won && (
+          <>
+            {/* <div className="winning-overlay"></div> */}
+            <h1 className="winning-title">Bra jobbat, du klarade det!</h1>
+          </>
+        )}
         {rowArray.map((row, currentRowIndex) => (
           <div key={currentRowIndex} className="row">
             {row.map((brickValue, currentColumnIndex) => {
-
-
 
               return (
                 <div
