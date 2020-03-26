@@ -9,23 +9,14 @@ export const App = () => {
   // GLÖM EJ INTE FIREWORKS!!!
   // ANIMATION?
 
-  // Compare rowArray with winningArray to see if the game is won ad update state won to true
+  // Compare rowArray with winningArray to see if the game is won
   const isGameWon = (currentRowIndex, currentColumnIndex) => {
-    // for (var i = 0; rowArray.length < i; i++) {
-    //   if (rowArray[i] !== winningArray[i]) {
-    //     return false
-    //   }
-    // }
-    // return true
     if (rowArray[currentRowIndex][currentColumnIndex] !== winningArray[currentRowIndex][currentColumnIndex]) {
       return false;
-
     } else {
       return true
     }
   }
-
-
 
   // Returns randomized order of game-array
   // const randomizer = (rowArray) => {
@@ -75,9 +66,7 @@ export const App = () => {
   }
 
   return (
-
     <article className="main-container">
-      {/* Just nu visas won hela tiden om jag fortsätter spela */}
       {won && (
         <h1 className="winning-title">Bra jobbat, du klarade det!</h1>
       )}
