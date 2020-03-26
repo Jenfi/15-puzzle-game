@@ -70,33 +70,19 @@ export const App = () => {
             {row.map((brickValue, columnIndex) => {
 
 
-              //Checking if brick can move up (if rowIndex = 0, or if brickValue above is not null. )
+              //Checking if brick can move up (if rowIndex != 0, or if brickValue above is not null. )
               if (rowIndex !== 0 && rowArray[rowIndex - 1][columnIndex] === null) {
-
-                // if (rowIndex === 0) {
-                console.log(`${brickValue} - this brick can move up`)
-
-                // } else if (rowIndex !== 0 && row[rowIndex - 1] && brickValue !== null) {
-                // console.log(`${brickValue} - this brick cannot move up`)
+                // console.log(`${brickValue} - this brick can move up`)
               } else {
-                console.log(`${brickValue} - this brick cannot move up`)
-
+                // console.log(`${brickValue} - this brick cannot move up`)
               }
 
               //Checking if brick can move down (if rowIndex = number of elements in array, or if brickValue below is not null)
-              if (rowIndex === rowArray.length - 1 || rowIndex !== rowArray.length - 1 && rowArray[rowIndex + 1] && columnIndex[columnIndex] && brickValue !== null) {
-
-                // if (rowIndex === rowArray.length - 1) {
-                // console.log(`${brickValue} - this brick cannot move down`)
-                // console.log(`${brickValue} - columnIndex: ${columnIndex}`)
-                // console.log(`${brickValue} - rowIndex: ${rowIndex}`)
-
-
-                // } else if (rowIndex !== rowArray.length - 1 && rowArray[rowIndex + 1] && columnIndex[columnIndex] && brickValue !== null) {
-                //   console.log(`${brickValue} - this brick cannot move down`)
+              if (rowIndex !== rowArray.length - 1 && rowArray[rowIndex + 1][columnIndex] === null) {
+                console.log(`${brickValue} - this brick can move down`)
               }
               else {
-                // console.log(`${brickValue} - this brick can move down`)
+                console.log(`${brickValue} - this brick cannot move down`)
 
               }
 
