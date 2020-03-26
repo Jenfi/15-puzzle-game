@@ -11,7 +11,7 @@
   flex-wrap: wrap;
   height: auto;
   justify-content: center;
-  padding: 0.3rem 0 0.3rem 0;
+  padding: 0.3rem;
   width: 90%;
 }
 
@@ -53,8 +53,9 @@
 }
 
 .null-brick{
-  align-items: center;
-  background: lightgray;
+  background: lightgrey;
+  border: 1px solid lightgrey;
+  display: flex;
   height: 3.2rem;
   margin: 0.08rem;
   width: 18%;

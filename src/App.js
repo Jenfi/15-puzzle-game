@@ -6,39 +6,46 @@ export const App = () => {
   const [rowArray, setRowArray] = useState([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, null, 14]])
   const winningArray = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, null]]
 
+  // GLÖM EJ INTE FIREWORKS!!!
+  // ANIMATION?
+
   // Compare rowArray with winningArray to see if the game is won ad update state won to true
-  //DENNA FUNKAR INTE JUST NU!
-  const isGameWon = () => {
-    for (var i = 0; rowArray.length < i; i++) {
-      if (rowArray[i] !== winningArray[i]) {
-        return false
-      }
+  const isGameWon = (currentRowIndex, currentColumnIndex) => {
+    // for (var i = 0; rowArray.length < i; i++) {
+    //   if (rowArray[i] !== winningArray[i]) {
+    //     return false
+    //   }
+    // }
+    // return true
+    if (rowArray[currentRowIndex][currentColumnIndex] !== winningArray[currentRowIndex][currentColumnIndex]) {
+      return false;
+
+    } else {
+      return true
     }
-    return true
   }
 
-  // const [moveUp, setMoveUp] = useState(true)
-  // const [moveLeft, setMoveLeft] = useState(true)
-  // const [moveRight, setMoveRight] = useState(true)
-  // const [moveLeft, setMoveLeft] = useState(true)
+
 
   // Returns randomized order of game-array
-  const randomizer = (arr) => {
-    //   let i, j, temp;
-    //   for (i = arr.length - 1; i > 0; i--) {
-    //     j = Math.floor(Math.random() * (i + 1));
-    //     temp = arr[i];
-    //     arr[i] = arr[j]
-    //     arr[j] = temp;
-    // }
-    //   return arr;
-  }
+  // const randomizer = (rowArray) => {
+  //   let i, j, temp;
+  //   for (i = rowArray.length - 1; i > 0; i--) {
+  //     j = Math.floor(Math.random() * (i + 1));
+  //     temp = rowArray[i];
+  //     rowArray[i] = rowArray[j]
+  //     rowArray[j] = temp;
+  //   }
+  //   return rowArray;
+  // }
 
   // Handles state of bricks, with randomizer(game) as initial to return a random order of bricks from start
-  const [bricks, setBricks] = useState(randomizer(rowArray)) // Uppdatera denna för att kunna köra en randomized?
+  // const [bricks, setBricks] = useState(randomizer(rowArray)) // Uppdatera denna för att kunna köra en randomized?
 
 
   const canMove = (currentRowIndex, currentColumnIndex, brickValue, row) => {
+
+    //make a copy of rowArray to update state of rowArray with the copy
     let newRowArray = rowArray.slice(0);
 
     //Checking if brick can move up (if rowIndex != 0, or if brickValue above is not null. )
@@ -64,13 +71,13 @@ export const App = () => {
       setRowArray(newRowArray)
 
     }
-    setWon(isGameWon());
+    setWon(isGameWon(currentRowIndex, currentColumnIndex));
   }
 
   return (
 
     <article className="main-container">
-      {console.log('render')}
+      {/* Just nu visas won hela tiden om jag fortsätter spela */}
       {won && (
         <h1 className="winning-title">Bra jobbat, du klarade det!</h1>
       )}
@@ -78,6 +85,9 @@ export const App = () => {
         {rowArray.map((row, currentRowIndex) => (
           <div key={currentRowIndex} className="row">
             {row.map((brickValue, currentColumnIndex) => {
+
+
+
               return (
                 <div
                   key={`${currentRowIndex}-${currentColumnIndex}`}
@@ -94,7 +104,7 @@ export const App = () => {
       <button
         className="shuffle-button"
         type="button"
-      // onClick={() => setBricks(randomizer(newGame))}
+      // onClick={() => setRowArray(randomizer)}
       >
         Slumpa
         </button>
