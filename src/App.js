@@ -3,25 +3,19 @@ import './styling/game.css'
 
 export const App = () => {
   const [won, setWon] = useState(false)
-  const [rowArray, setRowArray] = useState([[1, 2, 3, 4, 5], [6, 7, 8, 9, null], [11, 12, 13, 14, 10]])
-  // const winningArray = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, null]]
+  const [rowArray, setRowArray] = useState([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, null, 14]])
+  const winningArray = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, null]]
 
   // Compare rowArray with winningArray to see if the game is won ad update state won to true
   //DENNA FUNKAR INTE JUST NU!
-  // const isGameWon = () => {
-  //   if (rowArray.length === winningArray.length) {
-  //     return false
-  //   }
-  //   for (var i = 0; rowArray.length < i; i++) {
-  //     if (rowArray[i] !== winningArray[i]) {
-  //       return false
-  //     }
-  //   }
-  //   // return true
-  //   setWon(true)
-  // }
-  // isGameWon()
-
+  const isGameWon = () => {
+    for (var i = 0; rowArray.length < i; i++) {
+      if (rowArray[i] !== winningArray[i]) {
+        return false
+      }
+    }
+    return true
+  }
 
   // const [moveUp, setMoveUp] = useState(true)
   // const [moveLeft, setMoveLeft] = useState(true)
@@ -60,8 +54,6 @@ export const App = () => {
 
     } else if (currentColumnIndex !== row.length - 1 && rowArray[currentRowIndex][currentColumnIndex + 1] === null) {
       //Checking if brick can move to the right
-
-      // console.log(`${brickValue} - this brick CAN move to the right`)
       newRowArray[currentRowIndex][currentColumnIndex + 1] = brickValue;
       newRowArray[currentRowIndex][currentColumnIndex] = null;
       setRowArray(newRowArray)
@@ -72,6 +64,7 @@ export const App = () => {
       setRowArray(newRowArray)
 
     }
+    setWon(isGameWon());
   }
 
   return (
