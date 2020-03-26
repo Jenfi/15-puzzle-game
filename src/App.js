@@ -79,18 +79,17 @@ export const App = () => {
 
               //Checking if brick can move down (if rowIndex = number of elements in array, or if brickValue below is not null)
               if (rowIndex !== rowArray.length - 1 && rowArray[rowIndex + 1][columnIndex] === null) {
-                console.log(`${brickValue} - this brick can move down`)
+                // console.log(`${brickValue} - this brick can move down`)
               }
               else {
-                console.log(`${brickValue} - this brick cannot move down`)
-
+                // console.log(`${brickValue} - this brick cannot move down`)
               }
 
               //Checking if brick can move to the right
-              if (columnIndex === row.length - 1) {
-                // console.log(`${brickValue} - this brick cannot move to the right`)
+              if (columnIndex !== row.length - 1 && rowArray[rowIndex][columnIndex + 1] === null) {
+                console.log(`${brickValue} - this brick can move to the right`)
               } else {
-                // console.log(`${brickValue} - this brick can move to the right`)
+                console.log(`${brickValue} - this brick cannot move to the right`)
               }
 
               //Checking if brick can move to the left
