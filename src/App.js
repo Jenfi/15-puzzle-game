@@ -3,24 +3,24 @@ import './styling/game.css'
 
 export const App = () => {
   const [won, setWon] = useState(false)
-  const rowArray = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, null]]
-  const winningArray = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, null]]
+  const [rowArray, setRowArray] = useState([[1, 2, 3, 4, 5], [6, 7, 8, 9, null], [11, 12, 13, 14, 10]])
+  // const winningArray = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, null]]
 
   // Compare rowArray with winningArray to see if the game is won ad update state won to true
   //DENNA FUNKAR INTE JUST NU!
-  const isGameWon = () => {
-    if (rowArray.length === winningArray.length) {
-      return false
-    }
-    for (var i = 0; rowArray.length < i; i++) {
-      if (rowArray[i] !== winningArray[i]) {
-        return false
-      }
-    }
-    // return true
-    setWon(true)
-  }
-  isGameWon()
+  // const isGameWon = () => {
+  //   if (rowArray.length === winningArray.length) {
+  //     return false
+  //   }
+  //   for (var i = 0; rowArray.length < i; i++) {
+  //     if (rowArray[i] !== winningArray[i]) {
+  //       return false
+  //     }
+  //   }
+  //   // return true
+  //   setWon(true)
+  // }
+  // isGameWon()
 
 
   // const [moveUp, setMoveUp] = useState(true)
@@ -45,59 +45,39 @@ export const App = () => {
 
 
   const canMove = (currentRowIndex, currentColumnIndex, brickValue, row) => {
+    let newRowArray = rowArray.slice(0);
+
     //Checking if brick can move up (if rowIndex != 0, or if brickValue above is not null. )
     if (currentRowIndex !== 0 && rowArray[currentRowIndex - 1][currentColumnIndex] === null) {
-      console.log(`${brickValue} - this brick can move up`)
+      newRowArray[currentRowIndex - 1][currentColumnIndex] = brickValue;
+      newRowArray[currentRowIndex][currentColumnIndex] = null;
+      setRowArray(newRowArray)
+    } else if (currentRowIndex !== rowArray.length - 1 && rowArray[currentRowIndex + 1][currentColumnIndex] === null) {
+      //Checking if brick can move down (if rowIndex = number of elements in array, or if brickValue below is not null)
+      newRowArray[currentRowIndex + 1][currentColumnIndex] = brickValue;
+      newRowArray[currentRowIndex][currentColumnIndex] = null;
+      setRowArray(newRowArray)
 
-    } else {// Behövs ej,
-      console.log(`${brickValue} - this brick cannot move up`)
-    }
+    } else if (currentColumnIndex !== row.length - 1 && rowArray[currentRowIndex][currentColumnIndex + 1] === null) {
+      //Checking if brick can move to the right
 
-    //Checking if brick can move down (if rowIndex = number of elements in array, or if brickValue below is not null)
-    if (currentRowIndex !== rowArray.length - 1 && rowArray[currentRowIndex + 1][currentColumnIndex] === null) {
-      console.log(`${brickValue} - this brick can move down`)
-
-    } else {// Behövs ej,
-      console.log(`${brickValue} - this brick cannot move down`)
-    }
-
-    //Checking if brick can move to the right
-    if (currentColumnIndex !== row.length - 1 && rowArray[currentRowIndex][currentColumnIndex + 1] === null) {
-      console.log(`${brickValue} - this brick CAN move to the right`)
-
-    } else { // Behövs ej,
-      console.log(`${brickValue} - this brick cannot move to the right`)
-    }
-
-    //Checking if brick can move to the left
-    if (currentColumnIndex !== 0 && rowArray[currentRowIndex][currentColumnIndex - 1] === null) {
-      console.log(`${brickValue} - this brick CAN move to the left`)
+      // console.log(`${brickValue} - this brick CAN move to the right`)
+      newRowArray[currentRowIndex][currentColumnIndex + 1] = brickValue;
+      newRowArray[currentRowIndex][currentColumnIndex] = null;
+      setRowArray(newRowArray)
+    } else if (currentColumnIndex !== 0 && rowArray[currentRowIndex][currentColumnIndex - 1] === null) {
+      //Checking if brick can move to the left
+      newRowArray[currentRowIndex][currentColumnIndex - 1] = brickValue;
+      newRowArray[currentRowIndex][currentColumnIndex] = null;
+      setRowArray(newRowArray)
 
     }
-    else {// Behövs ej,
-      console.log(`${brickValue} - this brick cannot move to the left`)
-    }
-
-    // return false;
-
-    // a function that handles the move of the numbers --> move element inside an array
-    // Splice, push??
-    // Should be saved in the state of bricks? 
-
   }
 
-
-
-  // const v = (currentRowIndex, currentColumnIndex, brickValue) => {
-  //   if (canMove(currentRowIndex, currentColumnIndex, brickValue)) {
-
-  //   }
-  // }
-
-  // Make an array that is there just to compare with, to see if won.
-
   return (
+
     <article className="main-container">
+      {console.log('render')}
       {won && (
         <h1 className="winning-title">Bra jobbat, du klarade det!</h1>
       )}
@@ -111,11 +91,9 @@ export const App = () => {
                   className={brickValue !== null
                     ? "game-brick"
                     : "null-brick"}
-                  onClick={() => canMove(currentRowIndex, currentColumnIndex, brickValue, row)}
-                >
+                  onClick={() => canMove(currentRowIndex, currentColumnIndex, brickValue, row)}>
                   {brickValue}
-                </div>
-              )
+                </div>)
             })}
           </div>
         ))}
