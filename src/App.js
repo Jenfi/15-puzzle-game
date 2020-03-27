@@ -46,50 +46,42 @@ export const App = () => {
         }
       }
     }
-    console.log('is winning')
     return true
   }
 
   // // Returns randomized order of game-array
-  const shuffleArray = () => {
-    //   let currentIndex = array.lenght, temporaryValue, randomIndex;
-    for (var i = 0; i < rowArray.length; i++) {
-      for (var j = 0; j < rowArray[i].length; j++) {
-        var i1 = Math.floor(Math.random() * (rowArray.length))
-        var j1 = Math.floor(Math.random() * (rowArray.length))
+  // const shuffleArray = () => {
+  //   //   let currentIndex = array.lenght, temporaryValue, randomIndex;
+  //   for (var i = 0; i < rowArray.length; i++) {
+  //     for (var j = 0; j < rowArray[i].length; j++) {
+  //       var i1 = Math.floor(Math.random() * (rowArray.length))
+  //       var j1 = Math.floor(Math.random() * (rowArray.length))
 
-        var temp = rowArray[i][j]
-        rowArray[i][j] = rowArray[i1][j1]
-        rowArray[i1][j1] = temp
+  //       var temp = rowArray[i][j]
+  //       rowArray[i][j] = rowArray[i1][j1]
+  //       rowArray[i1][j1] = temp
+  //     }
+  //   }
+  //   // return rowArray
+  //   setRowArray(rowArray)
+  // }
+
+  const shuffleArray = () => {
+    let newRowArray = rowArray.slice(0);
+
+    for (var i = 0; i < newRowArray.length; i++) {
+      for (var j = 0; j < newRowArray[i].length; j++) {
+        var i1 = Math.floor(Math.random() * (newRowArray.length))
+        var j1 = Math.floor(Math.random() * (newRowArray.length))
+
+        var temp = newRowArray[i][j]
+        newRowArray[i][j] = newRowArray[i1][j1]
+        newRowArray[i1][j1] = temp
       }
     }
-    return rowArray
+    setRowArray(newRowArray);
   }
 
-  // const shuffleRowArray = () => {
-  //   let i, j, temp;
-  //   for (let i = rowArray.length - 1; i > 0; i--) {
-  //     j = Math.floor(Math.random() * (i + 1));
-  //     temp = rowArray[i];
-  //     rowArray[i] = rowArray[j]
-  //     rowArray[j] = temp;
-  //   }
-  //   return rowArray;
-  // }
-
-  // console.log(shuffleRowArray(rowArray))
-
-  // const shuffleRow = (row) => {
-  //   let i, j, temp;
-  //   for (i = row.length - 1; i > 0; i--) {
-  //     j = Math.floor(Math.random() * (i + 1));
-  //     temp = row[i];
-  //     row[i] = row[j]
-  //     row[j] = temp;
-  //   }
-  //   return row;
-  // }
-  // console.log(shuffleRow(row))
 
   // Handles state of bricks, with randomizer(game)
   // as initial to return a random order of bricks from start
@@ -128,6 +120,8 @@ export const App = () => {
     setWon(isGameWon(currentRowIndex, currentColumnIndex));
   }
 
+  // console.log(shuffleArray())
+
   return (
     <article className="main-container">
       <div className="winning-container">
@@ -156,8 +150,7 @@ export const App = () => {
       <button
         className="shuffle-button"
         type="button"
-        // onClick={() => shuffleArray(rowArray)}>
-        onClick={(i, j, temp) => console.log(shuffleArray(rowArray, i, j, temp))}>
+        onClick={() => shuffleArray()}>
         Slumpa
       </button>
     </article>
