@@ -10,19 +10,44 @@ export const App = () => {
   // ANIMATION?
 
   // Compare rowArray with winningArray to see if the game is won
-  const isGameWon = (currentRowIndex, currentColumnIndex) => {
-    if (rowArray[currentRowIndex][currentColumnIndex] !== winningArray[currentRowIndex][currentColumnIndex]) {
-      console.log('not won')
-      console.log(rowArray)
-      return false;
-    } else {
-      console.log('winning')
-      console.log(rowArray[currentRowIndex][currentColumnIndex])
+  // const isGameWon = (currentRowIndex, currentColumnIndex) => {
+  //   if (rowArray[currentRowIndex][currentColumnIndex] !== winningArray[currentRowIndex][currentColumnIndex] && rowArray !== winningArray) {
+  //     // if (rowArray[currentRowIndex] !== winningArray[currentRowIndex] && rowArray[currentColumnIndex] !== winningArray[currentColumnIndex]) {
+  //     console.log('not won')
+  //     console.log(rowArray)
+  //     console.log(rowArray[currentRowIndex][currentColumnIndex])
 
-      console.log(rowArray)
-      return true
+  //     return false;
+  //   } else if (rowArray === winningArray) {
+  //     console.log('winning')
+  //     console.log(rowArray[currentRowIndex][currentColumnIndex])
 
+  //     console.log(rowArray)
+  //     return true
+  //   }
+  // }
+
+  // const isGameWon = (row) => {
+  //   for (var i = 0; rowArray.length < i; i++) {
+  //     for (var j = 0; row.length < j; j++) {
+  //       if (rowArray[i][j] !== winningArray[i][j]) {
+  //         return false
+  //       }
+  //     }
+  //   }
+  //   return true
+  // }
+
+  const isGameWon = () => {
+    for (var i = 0; rowArray.length - 1 >= i; i++) {
+      for (var e = 0; rowArray[i].length - 1 >= e; e++) {
+        if (rowArray[i][e] !== winningArray[i][e]) {
+          return false;
+        }
+      }
     }
+    console.log('is winning')
+    return true
   }
 
   // // Returns randomized order of game-array
