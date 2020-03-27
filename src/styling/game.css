@@ -55,11 +55,9 @@
 .null-brick{
   background: lightgrey;
   border: 1px solid lightgrey;
-  display: flex;
   height: 3.2rem;
   margin: 0.08rem;
   width: 18%;
-  font-weight: 700;
 }
 
 .winning-container{
@@ -71,14 +69,6 @@
   text-align: center;
   margin-bottom: 3rem;
 }
-/* 
-.winning-overlay{
-  background: blue;
-  width: 100%;
-  height: 100%;
-  position: relative;
-} */
-
 
 /* MEDIA QUERIES */
 
@@ -93,7 +83,6 @@
   .null-brick{
     height: 7rem;
     width: 19%;
-    /* font-size: 22px; */
 
   }
 
