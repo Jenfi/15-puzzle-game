@@ -59,6 +59,7 @@
   height: 3.2rem;
   margin: 0.08rem;
   width: 18%;
+  font-weight: 700;
 }
 
 .winning-container{
@@ -89,9 +90,11 @@
     width: 19%;
   }
 
-  .no-brick{
+  .null-brick{
     height: 7rem;
     width: 19%;
+    /* font-size: 22px; */
+
   }
 
   .shuffle-button{
