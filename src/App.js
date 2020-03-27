@@ -18,10 +18,25 @@ export const App = () => {
     }
   }
 
-  // Returns randomized order of game-array
-  // const randomizer = (rowArray) => {
+  // // Returns randomized order of game-array
+  const shuffleArray = () => {
+    //   let currentIndex = array.lenght, temporaryValue, randomIndex;
+    for (var i = 0; i < rowArray.length; i++) {
+      for (var j = 0; j < rowArray[i].length; j++) {
+        var i1 = Math.floor(Math.random() * (rowArray.length))
+        var j1 = Math.floor(Math.random() * (rowArray.length))
+
+        var temp = rowArray[i][j]
+        rowArray[i][j] = rowArray[i1][j1]
+        rowArray[i1][j1] = temp
+      }
+    }
+    return rowArray
+  }
+
+  // const shuffleRowArray = () => {
   //   let i, j, temp;
-  //   for (i = rowArray.length - 1; i > 0; i--) {
+  //   for (let i = rowArray.length - 1; i > 0; i--) {
   //     j = Math.floor(Math.random() * (i + 1));
   //     temp = rowArray[i];
   //     rowArray[i] = rowArray[j]
@@ -29,6 +44,21 @@ export const App = () => {
   //   }
   //   return rowArray;
   // }
+
+  // console.log(shuffleRowArray(rowArray))
+
+  // const shuffleRow = (row) => {
+  //   let i, j, temp;
+  //   for (i = row.length - 1; i > 0; i--) {
+  //     j = Math.floor(Math.random() * (i + 1));
+  //     temp = row[i];
+  //     row[i] = row[j]
+  //     row[j] = temp;
+  //   }
+  //   return row;
+  // }
+  // console.log(shuffleRow(row))
+
 
   // Handles state of bricks, with randomizer(game) as initial to return a random order of bricks from start
   // const [bricks, setBricks] = useState(randomizer(rowArray)) // Uppdatera denna för att kunna köra en randomized?
@@ -95,10 +125,10 @@ export const App = () => {
       <button
         className="shuffle-button"
         type="button"
-      // onClick={() => setRowArray(randomizer)}
-      >
+        // onClick={() => shuffleArray(rowArray)}>
+        onClick={(i, j, temp) => console.log(shuffleArray(rowArray, i, j, temp))}>
         Slumpa
-        </button>
+      </button>
     </article>
   )
 }
