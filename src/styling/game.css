@@ -61,6 +61,10 @@
   width: 18%;
 }
 
+.winning-container{
+  height: 5rem;
+}
+
 .winning-title{
   font-size: 28px;
   text-align: center;
