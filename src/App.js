@@ -1,10 +1,60 @@
 import React, { useState } from 'react'
+import cloneDeep from 'lodash/cloneDeep'
 import './styling/game.css'
+
+// Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnade kod.
+//  `generateBoard` - new function to iterate x number of rows and x number of columns and generate tiles.
+// Since it is in the correct order to start with, we can use this to define the win condition.
+const generateBoard = () => {
+  const numberOfRows = 3
+  const numberOfColumns = 5
+  const board = []
+  let tileNumber = 1
+
+  for (let rowNumber = 1; rowNumber <= numberOfRows; rowNumber += 1) {
+    const row = []
+
+    for (let columnNumber = 1; columnNumber <= numberOfColumns; columnNumber += 1) {
+      if (rowNumber === numberOfRows && columnNumber === numberOfColumns) {
+        row.push(null)
+      } else {
+        row.push(tileNumber)
+        tileNumber += 1
+      }
+    }
+    board.push(row)
+  }
+  return board
+}
+
+const winningArray = generateBoard()
+
+const shuffleArray = (board) => {
+  // Copy array and shuffle the copy to avoid rowArray being shuffled when not asked for
+  // const newRowArray = rowArray.slice(0);
+  const newRowArray = cloneDeep(board)
+  // ... spread är mer JSX-anpassat men arrayns children-värden kopieras inte utan refereras 
+
+  //Uppdatera i och j till mer läsliga namn och gör en forEach ist! 
+  for (let i = 0; i < newRowArray.length; i += 1) {
+    for (let j = 0; j < newRowArray[i].length; j += 1) {
+      const i1 = Math.floor(Math.random() * (newRowArray.length))
+      const j1 = Math.floor(Math.random() * (newRowArray.length))
+      const temp = newRowArray[i][j]
+      newRowArray[i][j] = newRowArray[i1][j1]
+      newRowArray[i1][j1] = temp
+    }
+  }
+  return newRowArray
+}
+
 
 export const App = () => {
   const [won, setWon] = useState(false)
-  const [rowArray, setRowArray] = useState([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, null, 14]])
-  const winningArray = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, null]]
+  // const [rowArray, setRowArray] = useState([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, null, 14]])
+  const [rowArray, setRowArray] = useState(winningArray)
+  // Byt namn på ovan från rowArray till tex currentGame
+  // const winningArray = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, null]]
 
   // Compare rowArray with winningArray to see if the game is won
   const isGameWon = () => {
@@ -18,21 +68,7 @@ export const App = () => {
     return true
   }
 
-  const shuffleArray = () => {
-    // Copy array and shuffle the copy to avoid rowArray being shuffled when not asked for
-    const newRowArray = rowArray.slice(0);
 
-    for (let i = 0; i < newRowArray.length; i++) {
-      for (let j = 0; j < newRowArray[i].length; j++) {
-        const i1 = Math.floor(Math.random() * (newRowArray.length))
-        const j1 = Math.floor(Math.random() * (newRowArray.length))
-        const temp = newRowArray[i][j]
-        newRowArray[i][j] = newRowArray[i1][j1]
-        newRowArray[i1][j1] = temp
-      }
-    }
-    setRowArray(newRowArray);
-  }
 
   // Check if the brick can move
   const canMove = (currentRowIndex, currentColumnIndex, brickValue, row) => {
