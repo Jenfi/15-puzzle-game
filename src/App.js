@@ -66,7 +66,7 @@ export const App = () => {
   // Check if the brick can move
   const canMove = (currentRowIndex, currentColumnIndex, brickValue, row) => {
     // make a copy of rowArray to update state of rowArray with the copy
-    const newRowArray = rowArray.slice(0);
+    const newRowArray = cloneDeep(rowArray)
 
     // Checking if brick can move up (if rowIndex != 0, or if brickValue above is not null. )
     if (currentRowIndex !== 0 && rowArray[currentRowIndex - 1][currentColumnIndex] === null) {
