@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import cloneDeep from 'lodash/cloneDeep'
 import './styling/game.css'
 
-// Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnade kod.
-//  `generateBoard` - new function to iterate x number of rows and x number of columns and generate tiles.
-// Since it is in the correct order to start with, we can use this to define the win condition.
+// Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnad kod.
+// Jag itererar x antal rader och x antal kolumner och genererar tiles.
 const generateBoard = () => {
   const numberOfRows = 2
   const numberOfColumns = 2
@@ -13,7 +12,6 @@ const generateBoard = () => {
 
   for (let rowNumber = 1; rowNumber <= numberOfRows; rowNumber += 1) {
     const row = []
-
     for (let columnNumber = 1; columnNumber <= numberOfColumns; columnNumber += 1) {
       if (rowNumber === numberOfRows && columnNumber === numberOfColumns) {
         row.push(null)
@@ -27,8 +25,10 @@ const generateBoard = () => {
   return board
 }
 
+// Eftersom initalvärdet av board som jag får ut från generateeBoard är en ordnad array så kan jag använda denna array för att definiera vinnande state.
 const winningArray = generateBoard()
 
+// Jag flyttar upp denna funktion eftersom den inte behövs i komponenten App och för att minska risken för buggar
 const shuffleArray = (board) => {
   const newRowArray = cloneDeep(board)
 
@@ -45,6 +45,7 @@ const shuffleArray = (board) => {
   return newRowArray
 }
 
+// Jag flyttar upp och bryter ut även denna funktion eftersom den inte behövs i komponenten App och för att minska risken för buggar
 // Compare rowArray with winningArray to see if the game is won
 const isGameWon = (board) => {
   let isWon = true
@@ -60,32 +61,34 @@ const isGameWon = (board) => {
 
 export const App = () => {
   const [won, setWon] = useState(false)
-  const [rowArray, setRowArray] = useState(shuffleArray(winningArray))
+  // const [rowArray, setRowArray] = useState(shuffleArray(winningArray))
+  const [currentGame, setCurrentGame] = useState(shuffleArray(winningArray))
+
   // Byt namn på ovan från rowArray till tex currentGame
 
   // Check if the brick can move
   const canMove = (currentRowIndex, currentColumnIndex, brickValue, row) => {
     // make a copy of rowArray to update state of rowArray with the copy
-    const newRowArray = cloneDeep(rowArray)
+    const newRowArray = cloneDeep(currentGame)
 
     // Checking if brick can move up (if rowIndex != 0, or if brickValue above is not null. )
-    if (currentRowIndex !== 0 && rowArray[currentRowIndex - 1][currentColumnIndex] === null) {
+    if (currentRowIndex !== 0 && currentGame[currentRowIndex - 1][currentColumnIndex] === null) {
       newRowArray[currentRowIndex - 1][currentColumnIndex] = brickValue;
       newRowArray[currentRowIndex][currentColumnIndex] = null;
-    } else if (currentRowIndex !== rowArray.length - 1 && rowArray[currentRowIndex + 1][currentColumnIndex] === null) {
+    } else if (currentRowIndex !== currentGame.length - 1 && currentGame[currentRowIndex + 1][currentColumnIndex] === null) {
       // Checking if brick can move down (rowIndex = number of elements in array, or if brickValue below is not null)
       newRowArray[currentRowIndex + 1][currentColumnIndex] = brickValue;
       newRowArray[currentRowIndex][currentColumnIndex] = null;
-    } else if (currentColumnIndex !== row.length - 1 && rowArray[currentRowIndex][currentColumnIndex + 1] === null) {
+    } else if (currentColumnIndex !== row.length - 1 && currentGame[currentRowIndex][currentColumnIndex + 1] === null) {
       // Checking if brick can move to the right
       newRowArray[currentRowIndex][currentColumnIndex + 1] = brickValue;
       newRowArray[currentRowIndex][currentColumnIndex] = null;
-    } else if (currentColumnIndex !== 0 && rowArray[currentRowIndex][currentColumnIndex - 1] === null) {
+    } else if (currentColumnIndex !== 0 && currentGame[currentRowIndex][currentColumnIndex - 1] === null) {
       // Checking if brick can move to the left
       newRowArray[currentRowIndex][currentColumnIndex - 1] = brickValue;
       newRowArray[currentRowIndex][currentColumnIndex] = null;
     }
-    setRowArray(newRowArray)
+    setCurrentGame(newRowArray)
     setWon(isGameWon(newRowArray))
   }
 
@@ -97,7 +100,7 @@ export const App = () => {
         )}
       </div>
       <div className="game-board">
-        {rowArray.map((row, currentRowIndex) => (
+        {currentGame.map((row, currentRowIndex) => (
           <div key={currentRowIndex} className="row">
             {row.map((brickValue, currentColumnIndex) => (
               <div
@@ -116,7 +119,7 @@ export const App = () => {
       <button
         className="shuffle-button"
         type="button"
-        onClick={() => setRowArray(shuffleArray(rowArray))}>
+        onClick={() => setCurrentGame(shuffleArray(currentGame))}>
         Slumpa
       </button>
     </article>
