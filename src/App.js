@@ -30,19 +30,19 @@ const winningArray = generateBoard()
 
 // Jag flyttar upp denna funktion eftersom den inte behövs i komponenten App och för att minska risken för buggar
 const shuffleArray = (board) => {
-  const newRowArray = cloneDeep(board)
+  const newGame = cloneDeep(board)
 
   //Uppdatera i och j till mer läsliga namn och gör en forEach ist! 
-  for (let i = 0; i < newRowArray.length; i += 1) {
-    for (let j = 0; j < newRowArray[i].length; j += 1) {
-      const i1 = Math.floor(Math.random() * (newRowArray.length))
-      const j1 = Math.floor(Math.random() * (newRowArray.length))
-      const temp = newRowArray[i][j]
-      newRowArray[i][j] = newRowArray[i1][j1]
-      newRowArray[i1][j1] = temp
+  for (let i = 0; i < newGame.length; i += 1) {
+    for (let j = 0; j < newGame[i].length; j += 1) {
+      const i1 = Math.floor(Math.random() * (newGame.length))
+      const j1 = Math.floor(Math.random() * (newGame.length))
+      const temp = newGame[i][j]
+      newGame[i][j] = newGame[i1][j1]
+      newGame[i1][j1] = temp
     }
   }
-  return newRowArray
+  return newGame
 }
 
 // Jag flyttar upp och bryter ut även denna funktion eftersom den inte behövs i komponenten App och för att minska risken för buggar
@@ -61,7 +61,6 @@ const isGameWon = (board) => {
 
 export const App = () => {
   const [won, setWon] = useState(false)
-  // const [rowArray, setRowArray] = useState(shuffleArray(winningArray))
   const [currentGame, setCurrentGame] = useState(shuffleArray(winningArray))
 
   // Byt namn på ovan från rowArray till tex currentGame
@@ -69,27 +68,28 @@ export const App = () => {
   // Check if the brick can move
   const canMove = (currentRowIndex, currentColumnIndex, brickValue, row) => {
     // make a copy of rowArray to update state of rowArray with the copy
-    const newRowArray = cloneDeep(currentGame)
+    const newGame = cloneDeep(currentGame)
+
 
     // Checking if brick can move up (if rowIndex != 0, or if brickValue above is not null. )
     if (currentRowIndex !== 0 && currentGame[currentRowIndex - 1][currentColumnIndex] === null) {
-      newRowArray[currentRowIndex - 1][currentColumnIndex] = brickValue;
-      newRowArray[currentRowIndex][currentColumnIndex] = null;
+      newGame[currentRowIndex - 1][currentColumnIndex] = brickValue;
+      newGame[currentRowIndex][currentColumnIndex] = null;
     } else if (currentRowIndex !== currentGame.length - 1 && currentGame[currentRowIndex + 1][currentColumnIndex] === null) {
       // Checking if brick can move down (rowIndex = number of elements in array, or if brickValue below is not null)
-      newRowArray[currentRowIndex + 1][currentColumnIndex] = brickValue;
-      newRowArray[currentRowIndex][currentColumnIndex] = null;
+      newGame[currentRowIndex + 1][currentColumnIndex] = brickValue;
+      newGame[currentRowIndex][currentColumnIndex] = null;
     } else if (currentColumnIndex !== row.length - 1 && currentGame[currentRowIndex][currentColumnIndex + 1] === null) {
       // Checking if brick can move to the right
-      newRowArray[currentRowIndex][currentColumnIndex + 1] = brickValue;
-      newRowArray[currentRowIndex][currentColumnIndex] = null;
+      newGame[currentRowIndex][currentColumnIndex + 1] = brickValue;
+      newGame[currentRowIndex][currentColumnIndex] = null;
     } else if (currentColumnIndex !== 0 && currentGame[currentRowIndex][currentColumnIndex - 1] === null) {
       // Checking if brick can move to the left
-      newRowArray[currentRowIndex][currentColumnIndex - 1] = brickValue;
-      newRowArray[currentRowIndex][currentColumnIndex] = null;
+      newGame[currentRowIndex][currentColumnIndex - 1] = brickValue;
+      newGame[currentRowIndex][currentColumnIndex] = null;
     }
-    setCurrentGame(newRowArray)
-    setWon(isGameWon(newRowArray))
+    setCurrentGame(newGame)
+    setWon(isGameWon(newGame))
   }
 
   return (
