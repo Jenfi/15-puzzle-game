@@ -6,8 +6,8 @@ import './styling/game.css'
 //  `generateBoard` - new function to iterate x number of rows and x number of columns and generate tiles.
 // Since it is in the correct order to start with, we can use this to define the win condition.
 const generateBoard = () => {
-  const numberOfRows = 2
-  const numberOfColumns = 2
+  const numberOfRows = 3
+  const numberOfColumns = 5
   const board = []
   let tileNumber = 1
 
@@ -62,7 +62,6 @@ export const App = () => {
   const [won, setWon] = useState(false)
   const [rowArray, setRowArray] = useState(shuffleArray(winningArray))
   // Byt namn på ovan från rowArray till tex currentGame
-
 
   // Check if the brick can move
   const canMove = (currentRowIndex, currentColumnIndex, brickValue, row) => {
