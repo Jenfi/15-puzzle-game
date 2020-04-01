@@ -30,10 +30,7 @@ const generateBoard = () => {
 const winningArray = generateBoard()
 
 const shuffleArray = (board) => {
-  // Copy array and shuffle the copy to avoid rowArray being shuffled when not asked for
-  // const newRowArray = rowArray.slice(0);
   const newRowArray = cloneDeep(board)
-  // ... spread är mer JSX-anpassat men arrayns children-värden kopieras inte utan refereras 
 
   //Uppdatera i och j till mer läsliga namn och gör en forEach ist! 
   for (let i = 0; i < newRowArray.length; i += 1) {
@@ -51,10 +48,8 @@ const shuffleArray = (board) => {
 
 export const App = () => {
   const [won, setWon] = useState(false)
-  // const [rowArray, setRowArray] = useState([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, null, 14]])
-  const [rowArray, setRowArray] = useState(winningArray)
+  const [rowArray, setRowArray] = useState(shuffleArray(winningArray))
   // Byt namn på ovan från rowArray till tex currentGame
-  // const winningArray = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, null]]
 
   // Compare rowArray with winningArray to see if the game is won
   const isGameWon = () => {
@@ -126,7 +121,7 @@ export const App = () => {
       <button
         className="shuffle-button"
         type="button"
-        onClick={() => shuffleArray()}>
+        onClick={() => setRowArray(shuffleArray(rowArray))}>
         Slumpa
       </button>
     </article>
