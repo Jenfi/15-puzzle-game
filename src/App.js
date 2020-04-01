@@ -6,8 +6,8 @@ import './styling/game.css'
 //  `generateBoard` - new function to iterate x number of rows and x number of columns and generate tiles.
 // Since it is in the correct order to start with, we can use this to define the win condition.
 const generateBoard = () => {
-  const numberOfRows = 3
-  const numberOfColumns = 5
+  const numberOfRows = 2
+  const numberOfColumns = 2
   const board = []
   let tileNumber = 1
 
@@ -45,24 +45,23 @@ const shuffleArray = (board) => {
   return newRowArray
 }
 
+// Compare rowArray with winningArray to see if the game is won
+const isGameWon = (board) => {
+  let isWon = true
+  board.forEach((row, rowIndex) => {
+    row.forEach((column, columnIndex) => {
+      if (board[rowIndex][columnIndex] !== winningArray[rowIndex][columnIndex]) {
+        isWon = false
+      }
+    })
+  })
+  return isWon
+}
 
 export const App = () => {
   const [won, setWon] = useState(false)
   const [rowArray, setRowArray] = useState(shuffleArray(winningArray))
   // Byt namn på ovan från rowArray till tex currentGame
-
-  // Compare rowArray with winningArray to see if the game is won
-  const isGameWon = () => {
-    for (let i = 0; rowArray.length - 1 >= i; i++) {
-      for (let e = 0; rowArray[i].length - 1 >= e; e++) {
-        if (rowArray[i][e] !== winningArray[i][e]) {
-          return false;
-        }
-      }
-    }
-    return true
-  }
-
 
 
   // Check if the brick can move
@@ -74,24 +73,23 @@ export const App = () => {
     if (currentRowIndex !== 0 && rowArray[currentRowIndex - 1][currentColumnIndex] === null) {
       newRowArray[currentRowIndex - 1][currentColumnIndex] = brickValue;
       newRowArray[currentRowIndex][currentColumnIndex] = null;
-      setRowArray(newRowArray)
     } else if (currentRowIndex !== rowArray.length - 1 && rowArray[currentRowIndex + 1][currentColumnIndex] === null) {
       // Checking if brick can move down (rowIndex = number of elements in array, or if brickValue below is not null)
       newRowArray[currentRowIndex + 1][currentColumnIndex] = brickValue;
       newRowArray[currentRowIndex][currentColumnIndex] = null;
-      setRowArray(newRowArray)
     } else if (currentColumnIndex !== row.length - 1 && rowArray[currentRowIndex][currentColumnIndex + 1] === null) {
       // Checking if brick can move to the right
       newRowArray[currentRowIndex][currentColumnIndex + 1] = brickValue;
       newRowArray[currentRowIndex][currentColumnIndex] = null;
-      setRowArray(newRowArray)
     } else if (currentColumnIndex !== 0 && rowArray[currentRowIndex][currentColumnIndex - 1] === null) {
       // Checking if brick can move to the left
       newRowArray[currentRowIndex][currentColumnIndex - 1] = brickValue;
       newRowArray[currentRowIndex][currentColumnIndex] = null;
-      setRowArray(newRowArray)
     }
-    setWon(isGameWon(currentRowIndex, currentColumnIndex));
+    setRowArray(newRowArray)
+    if (isGameWon(newRowArray)) {
+      setWon(true)
+    }
   }
 
   return (
