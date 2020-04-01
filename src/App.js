@@ -5,8 +5,8 @@ import './styling/game.css'
 // Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnad kod.
 // Jag itererar x antal rader och x antal kolumner och genererar tiles.
 const generateBoard = () => {
-  const numberOfRows = 2
-  const numberOfColumns = 2
+  const numberOfRows = 3
+  const numberOfColumns = 5
   const board = []
   let tileNumber = 1
 
@@ -29,24 +29,25 @@ const generateBoard = () => {
 const winningArray = generateBoard()
 
 // Jag flyttar upp denna funktion eftersom den inte behövs i komponenten App och för att minska risken för buggar
+
 const shuffleArray = (board) => {
   const newGame = cloneDeep(board)
 
-  //Uppdatera i och j till mer läsliga namn och gör en forEach ist! 
-  for (let i = 0; i < newGame.length; i += 1) {
-    for (let j = 0; j < newGame[i].length; j += 1) {
-      const i1 = Math.floor(Math.random() * (newGame.length))
-      const j1 = Math.floor(Math.random() * (newGame.length))
-      const temp = newGame[i][j]
-      newGame[i][j] = newGame[i1][j1]
-      newGame[i1][j1] = temp
-    }
-  }
+  // Skrev om från for till forEach pga mer lättläsligt
+  newGame.forEach((row, rowIndex) => {
+    row.forEach((column, columnIndex) => {
+      const rowIndex1 = Math.floor(Math.random() * (newGame.length))
+      const columnIndex1 = Math.floor(Math.random() * (newGame.length))
+      const temp = newGame[rowIndex][columnIndex]
+      newGame[rowIndex][columnIndex] = newGame[rowIndex1][columnIndex1]
+      newGame[rowIndex1][columnIndex1] = temp
+    })
+  })
   return newGame
 }
 
 // Jag flyttar upp och bryter ut även denna funktion eftersom den inte behövs i komponenten App och för att minska risken för buggar
-// Compare rowArray with winningArray to see if the game is won
+// Compares board with winningArray to see if the game is won
 const isGameWon = (board) => {
   let isWon = true
   board.forEach((row, rowIndex) => {
@@ -63,11 +64,9 @@ export const App = () => {
   const [won, setWon] = useState(false)
   const [currentGame, setCurrentGame] = useState(shuffleArray(winningArray))
 
-  // Byt namn på ovan från rowArray till tex currentGame
-
   // Check if the brick can move
   const canMove = (currentRowIndex, currentColumnIndex, brickValue, row) => {
-    // make a copy of rowArray to update state of rowArray with the copy
+    // make a copy of currentGame to update state of currentGame with the copy (newGame)
     const newGame = cloneDeep(currentGame)
 
 
