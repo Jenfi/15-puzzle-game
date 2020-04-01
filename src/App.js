@@ -6,8 +6,8 @@ import './styling/game.css'
 //  `generateBoard` - new function to iterate x number of rows and x number of columns and generate tiles.
 // Since it is in the correct order to start with, we can use this to define the win condition.
 const generateBoard = () => {
-  const numberOfRows = 3
-  const numberOfColumns = 5
+  const numberOfRows = 2
+  const numberOfColumns = 2
   const board = []
   let tileNumber = 1
 
@@ -86,9 +86,7 @@ export const App = () => {
       newRowArray[currentRowIndex][currentColumnIndex] = null;
     }
     setRowArray(newRowArray)
-    if (isGameWon(newRowArray)) {
-      setWon(true)
-    }
+    setWon(isGameWon(newRowArray))
   }
 
   return (
