@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import cloneDeep from 'lodash/cloneDeep'
 import './styling/game.css'
 
-// ) Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnad kod.
+// Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnad kod.
 // Jag itererar x antal rader och x antal kolumner och genererar tiles.
 const generateBoard = () => {
   const numberOfRows = 3
@@ -31,7 +31,6 @@ const winningArray = generateBoard()
 // Jag flyttar upp denna funktion eftersom den inte behövs i komponenten App och för att minska risken för buggar
 const shuffleArray = (board) => {
   const newGame = cloneDeep(board)
-
   // Skrev om från for till forEach pga mer lättläsligt
   newGame.forEach((row, rowIndex) => {
     row.forEach((column, columnIndex) => {
@@ -90,6 +89,17 @@ export const App = () => {
     setWon(isGameWon(newGame))
   }
 
+  // Sätter vilkor för shuffle för att uppdatera state av won tillbaka till false
+  const handleShuffle = () => {
+    const newGame = cloneDeep(currentGame)
+    if (won) {
+      setWon(false)
+      return shuffleArray(newGame)
+    } else {
+      return shuffleArray(newGame)
+    }
+  }
+
   return (
     <article className="main-container">
       <div className="winning-container">
@@ -117,7 +127,7 @@ export const App = () => {
       <button
         className="shuffle-button"
         type="button"
-        onClick={() => setCurrentGame(shuffleArray(currentGame))}>
+        onClick={() => setCurrentGame(handleShuffle(currentGame))}>
         Slumpa
       </button>
     </article>
