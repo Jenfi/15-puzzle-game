@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import cloneDeep from 'lodash/cloneDeep'
 import './styling/game.css'
 
-// Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnad kod.
+// Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnade kod.
 // Jag itererar x antal rader och x antal kolumner och genererar tiles.
 const generateBoard = () => {
   const numberOfRows = 3
@@ -25,11 +25,12 @@ const generateBoard = () => {
   return board
 }
 
-// Eftersom initalvärdet av board som jag får ut från generateeBoard är en ordnad array så kan jag använda denna array för att definiera vinnande state.
+// Initalvärdet av board som returneras av generateBoard är en ordnad array så kan jag använda denna array för att definiera vinnande state.
 const winningArray = generateBoard()
 
-// Jag flyttar upp denna funktion eftersom den inte behövs i komponenten App och för att minska risken för buggar
+// Jag har flyttat upp denna funktion ur App eftersom den inte behövs i komponenten och för att minska risken för buggar
 const shuffleArray = (board) => {
+  // Använder mig av clonedeep ist för splice eller ...spread
   const newGame = cloneDeep(board)
   // Skrev om från for till forEach pga mer lättläsligt
   newGame.forEach((row, rowIndex) => {
@@ -44,7 +45,8 @@ const shuffleArray = (board) => {
   return newGame
 }
 
-// Jag flyttar upp och bryter ut även denna funktion eftersom den inte behövs i komponenten App och för att minska risken för buggar
+// Jag har flyttat upp och bryter ut även denna funktion eftersom den inte behövs i komponenten och för att minska risken för buggar
+// Skrev om från for till forEach pga mer lättläsligt
 // Compares board with winningArray to see if the game is won
 const isGameWon = (board) => {
   let isWon = true
@@ -71,16 +73,16 @@ export const App = () => {
     if (currentRowIndex !== 0 && currentGame[currentRowIndex - 1][currentColumnIndex] === null) {
       newGame[currentRowIndex - 1][currentColumnIndex] = brickValue
       newGame[currentRowIndex][currentColumnIndex] = null
-    } else if (currentRowIndex !== currentGame.length - 1 && currentGame[currentRowIndex + 1][currentColumnIndex] === null) {
       // Checking if brick can move down
+    } else if (currentRowIndex !== currentGame.length - 1 && currentGame[currentRowIndex + 1][currentColumnIndex] === null) {
       newGame[currentRowIndex + 1][currentColumnIndex] = brickValue
       newGame[currentRowIndex][currentColumnIndex] = null
-    } else if (currentColumnIndex !== row.length - 1 && currentGame[currentRowIndex][currentColumnIndex + 1] === null) {
       // Checking if brick can move to the right
+    } else if (currentColumnIndex !== row.length - 1 && currentGame[currentRowIndex][currentColumnIndex + 1] === null) {
       newGame[currentRowIndex][currentColumnIndex + 1] = brickValue
       newGame[currentRowIndex][currentColumnIndex] = null
-    } else if (currentColumnIndex !== 0 && currentGame[currentRowIndex][currentColumnIndex - 1] === null) {
       // Checking if brick can move to the left
+    } else if (currentColumnIndex !== 0 && currentGame[currentRowIndex][currentColumnIndex - 1] === null) {
       newGame[currentRowIndex][currentColumnIndex - 1] = brickValue
       newGame[currentRowIndex][currentColumnIndex] = null
     }
