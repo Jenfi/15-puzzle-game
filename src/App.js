@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import cloneDeep from 'lodash/cloneDeep'
 import './styling/game.css'
 
-// Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnad kod.
+// ) Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnad kod.
 // Jag itererar x antal rader och x antal kolumner och genererar tiles.
 const generateBoard = () => {
   const numberOfRows = 3
@@ -29,7 +29,6 @@ const generateBoard = () => {
 const winningArray = generateBoard()
 
 // Jag flyttar upp denna funktion eftersom den inte behövs i komponenten App och för att minska risken för buggar
-
 const shuffleArray = (board) => {
   const newGame = cloneDeep(board)
 
@@ -62,31 +61,31 @@ const isGameWon = (board) => {
 
 export const App = () => {
   const [won, setWon] = useState(false)
-  const [currentGame, setCurrentGame] = useState(shuffleArray(winningArray))
+  const [currentGame, setCurrentGame] = useState(shuffleArray(winningArray)) // Här gör jag initialvärdet av currentGame till en shufflead array. Detta kunde jag inte göra tidigare.
 
   // Check if the brick can move
   const canMove = (currentRowIndex, currentColumnIndex, brickValue, row) => {
-    // make a copy of currentGame to update state of currentGame with the copy (newGame)
+    // Ändrat från slice till cloneDeep från lodash-bibliotek. Testade ... spread men den tycktes inte kopiera children utan bara referera till children.
     const newGame = cloneDeep(currentGame)
 
-
-    // Checking if brick can move up (if rowIndex != 0, or if brickValue above is not null. )
+    // Checking if brick can move up
     if (currentRowIndex !== 0 && currentGame[currentRowIndex - 1][currentColumnIndex] === null) {
-      newGame[currentRowIndex - 1][currentColumnIndex] = brickValue;
-      newGame[currentRowIndex][currentColumnIndex] = null;
+      newGame[currentRowIndex - 1][currentColumnIndex] = brickValue
+      newGame[currentRowIndex][currentColumnIndex] = null
     } else if (currentRowIndex !== currentGame.length - 1 && currentGame[currentRowIndex + 1][currentColumnIndex] === null) {
-      // Checking if brick can move down (rowIndex = number of elements in array, or if brickValue below is not null)
-      newGame[currentRowIndex + 1][currentColumnIndex] = brickValue;
-      newGame[currentRowIndex][currentColumnIndex] = null;
+      // Checking if brick can move down
+      newGame[currentRowIndex + 1][currentColumnIndex] = brickValue
+      newGame[currentRowIndex][currentColumnIndex] = null
     } else if (currentColumnIndex !== row.length - 1 && currentGame[currentRowIndex][currentColumnIndex + 1] === null) {
       // Checking if brick can move to the right
-      newGame[currentRowIndex][currentColumnIndex + 1] = brickValue;
-      newGame[currentRowIndex][currentColumnIndex] = null;
+      newGame[currentRowIndex][currentColumnIndex + 1] = brickValue
+      newGame[currentRowIndex][currentColumnIndex] = null
     } else if (currentColumnIndex !== 0 && currentGame[currentRowIndex][currentColumnIndex - 1] === null) {
       // Checking if brick can move to the left
-      newGame[currentRowIndex][currentColumnIndex - 1] = brickValue;
-      newGame[currentRowIndex][currentColumnIndex] = null;
+      newGame[currentRowIndex][currentColumnIndex - 1] = brickValue
+      newGame[currentRowIndex][currentColumnIndex] = null
     }
+    // Flyttade ner setCurrentGame hit istället för att koden ska "run smooth"
     setCurrentGame(newGame)
     setWon(isGameWon(newGame))
   }

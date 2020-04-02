@@ -28,6 +28,10 @@
   width: 18%;
 }
 
+.game-brick:hover{
+  background-color: #c7dee6;
+}
+
 .main-container{
   align-items: center;
   display: flex;
