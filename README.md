@@ -5,6 +5,7 @@ Den här appen har genererats med hjälp av boilerplate  `Technigo-react-starter
 ## Byggnad
 
 1. Install required dependencies with npm: `npm install`
+1. Install cloneDeep (LoDash) with npm: `npm install --save lodash`
 1. Start the project: `npm start`
 
 ## Arbete med projektet
