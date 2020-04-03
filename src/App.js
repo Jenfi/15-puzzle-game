@@ -5,100 +5,94 @@ import './styling/game.css'
 // Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnade kod.
 // Jag itererar x antal rader och x antal kolumner och genererar tiles.
 const generateBoard = () => {
-  const numberOfRows = 3
-  const numberOfColumns = 5
-  const board = []
-  let tileNumber = 1
+  const numberOfRows = 2;
+  const numberOfColumns = 2;
+  const board = [];
+  let tileNumber = 1;
 
   for (let rowNumber = 1; rowNumber <= numberOfRows; rowNumber += 1) {
-    const row = []
+    const row = [];
     for (let columnNumber = 1; columnNumber <= numberOfColumns; columnNumber += 1) {
       if (rowNumber === numberOfRows && columnNumber === numberOfColumns) {
-        row.push(null)
+        row.push(null);
       } else {
         row.push(tileNumber)
-        tileNumber += 1
+        tileNumber += 1;
       }
     }
-    board.push(row)
+    board.push(row);
   }
-  return board
+  return board;
 }
 
 // Initalvärdet av board som returneras av generateBoard är en ordnad array så kan jag använda denna array för att definiera vinnande state.
-const winningArray = generateBoard()
+const winningArray = generateBoard();
 
-// Jag har flyttat upp denna funktion ur App eftersom den inte behövs i komponenten och för att minska risken för buggar
 const shuffleArray = (board) => {
-  // Använder mig av clonedeep ist för splice eller ...spread
-  const newGame = cloneDeep(board)
-  // Skrev om från for till forEach pga mer lättläsligt
+  const newGame = cloneDeep(board);
+
   newGame.forEach((row, rowIndex) => {
     row.forEach((column, columnIndex) => {
-      const rowIndex1 = Math.floor(Math.random() * (newGame.length))
-      const columnIndex1 = Math.floor(Math.random() * (newGame.length))
-      const temp = newGame[rowIndex][columnIndex]
-      newGame[rowIndex][columnIndex] = newGame[rowIndex1][columnIndex1]
-      newGame[rowIndex1][columnIndex1] = temp
+      const rowIndex1 = Math.floor(Math.random() * (newGame.length));
+      const columnIndex1 = Math.floor(Math.random() * (newGame.length));
+      const temp = newGame[rowIndex][columnIndex];
+      newGame[rowIndex][columnIndex] = newGame[rowIndex1][columnIndex1];
+      newGame[rowIndex1][columnIndex1] = temp;
     })
   })
-  return newGame
+  return newGame;
 }
 
-// Jag har flyttat upp och bryter ut även denna funktion eftersom den inte behövs i komponenten och för att minska risken för buggar
-// Skrev om från for till forEach pga mer lättläsligt
 // Compares board with winningArray to see if the game is won
 const isGameWon = (board) => {
-  let isWon = true
+  let isWon = true;
   board.forEach((row, rowIndex) => {
     row.forEach((column, columnIndex) => {
       if (board[rowIndex][columnIndex] !== winningArray[rowIndex][columnIndex]) {
-        isWon = false
+        isWon = false;
       }
     })
   })
-  return isWon
+  return isWon;
 }
 
 export const App = () => {
-  const [won, setWon] = useState(false)
-  const [currentGame, setCurrentGame] = useState(shuffleArray(winningArray)) // Här gör jag initialvärdet av currentGame till en shufflead array. Detta kunde jag inte göra tidigare.
+  const [won, setWon] = useState(false);
+  const [currentGame, setCurrentGame] = useState(shuffleArray(winningArray));
 
   // Check if the brick can move
   const canMove = (currentRowIndex, currentColumnIndex, brickValue, row) => {
-    // Ändrat från slice till cloneDeep från lodash-bibliotek. Testade ... spread men den tycktes inte kopiera children utan bara referera till children.
-    const newGame = cloneDeep(currentGame)
+    const newGame = cloneDeep(currentGame);
 
     // Checking if brick can move up
     if (currentRowIndex !== 0 && currentGame[currentRowIndex - 1][currentColumnIndex] === null) {
-      newGame[currentRowIndex - 1][currentColumnIndex] = brickValue
-      newGame[currentRowIndex][currentColumnIndex] = null
+      newGame[currentRowIndex - 1][currentColumnIndex] = brickValue;
+      newGame[currentRowIndex][currentColumnIndex] = null;
       // Checking if brick can move down
     } else if (currentRowIndex !== currentGame.length - 1 && currentGame[currentRowIndex + 1][currentColumnIndex] === null) {
-      newGame[currentRowIndex + 1][currentColumnIndex] = brickValue
-      newGame[currentRowIndex][currentColumnIndex] = null
+      newGame[currentRowIndex + 1][currentColumnIndex] = brickValue;
+      newGame[currentRowIndex][currentColumnIndex] = null;
       // Checking if brick can move to the right
     } else if (currentColumnIndex !== row.length - 1 && currentGame[currentRowIndex][currentColumnIndex + 1] === null) {
-      newGame[currentRowIndex][currentColumnIndex + 1] = brickValue
-      newGame[currentRowIndex][currentColumnIndex] = null
+      newGame[currentRowIndex][currentColumnIndex + 1] = brickValue;
+      newGame[currentRowIndex][currentColumnIndex] = null;
       // Checking if brick can move to the left
     } else if (currentColumnIndex !== 0 && currentGame[currentRowIndex][currentColumnIndex - 1] === null) {
-      newGame[currentRowIndex][currentColumnIndex - 1] = brickValue
-      newGame[currentRowIndex][currentColumnIndex] = null
+      newGame[currentRowIndex][currentColumnIndex - 1] = brickValue;
+      newGame[currentRowIndex][currentColumnIndex] = null;
     }
-    // Flyttade ner setCurrentGame hit istället för att koden ska "run smooth"
-    setCurrentGame(newGame)
-    setWon(isGameWon(newGame))
+    setCurrentGame(newGame);
+    setWon(isGameWon(newGame));
   }
 
   // Sätter vilkor för shuffle för att uppdatera state av won tillbaka till false
   const handleShuffle = () => {
-    const newGame = cloneDeep(currentGame)
+    const newGame = cloneDeep(currentGame);
     if (won) {
-      setWon(false)
-      return shuffleArray(newGame)
+      setWon(false);
+      return shuffleArray(newGame);
     } else {
-      return shuffleArray(newGame)
+      return shuffleArray(newGame);
     }
   }
 
