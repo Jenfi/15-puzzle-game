@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import cloneDeep from 'lodash/cloneDeep'
 import './styling/game.css'
 
-// Här sätter jag upp en mer generaliserad spelplan, istället för att skriva hårt som i min inlämnade kod.
-// Jag itererar x antal rader och x antal kolumner och genererar tiles.
+// Setting up the gameboard
 const generateBoard = () => {
-  const numberOfRows = 2;
-  const numberOfColumns = 2;
+  const numberOfRows = 3;
+  const numberOfColumns = 5;
   const board = [];
   let tileNumber = 1;
 
@@ -25,7 +24,7 @@ const generateBoard = () => {
   return board;
 }
 
-// Initalvärdet av board som returneras av generateBoard är en ordnad array så kan jag använda denna array för att definiera vinnande state.
+// Initial state of board returned by generateBoard() is an ordered array, so we can use this array to define the winning array and state.
 const winningArray = generateBoard();
 
 const shuffleArray = (board) => {
@@ -59,6 +58,7 @@ const isGameWon = (board) => {
 export const App = () => {
   const [won, setWon] = useState(false);
   const [currentGame, setCurrentGame] = useState(shuffleArray(winningArray));
+
 
   // Check if the brick can move
   const canMove = (currentRowIndex, currentColumnIndex, brickValue, row) => {
